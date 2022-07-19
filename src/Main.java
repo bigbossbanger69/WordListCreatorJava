@@ -17,9 +17,12 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
+        System.out.println("\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n");
         //Start with greeting user:
-        System.out.println("Welcome to HoldMyWordlist");
-        System.out.println("Please Drag and Drop the wordlist you want to modify into the terminal");
+        System.out.println("#########################################################################");
+        System.out.println("#                       Welcome to HoldMyWordlist                       #");
+        System.out.println("#Please Drag and Drop the wordlist you want to modify into the terminal #");
+        System.out.print("file: ");
         Scanner scanner = new Scanner(System.in);
         String path = scanner.next();
 
@@ -33,31 +36,30 @@ public class Main {
         }
 
         // Change uppercase,lowercase Of Letters
-        System.out.println("Interactive mode: change letters");
-        System.out.println("1= Caps Lock");
-        System.out.println("2= all lowercase");
-        System.out.println("3= first uppercase");
-        System.out.println("4= do all modes");
+        System.out.println("#                     Interactive mode: change letters                  #");
+        System.out.println("# 1= all caps lock                                                      #");
+        System.out.println("# 2= all lowercase                                                      #");
+        System.out.println("# 3= first uppercase, rest lowercase                                    #");
+        System.out.println("# 4= do all modes                                                       #");
 
         int mode = scanner.nextInt(); // exeption handling needed
         LinkedList<String> modifiedList = modifyWordlist(originalWordlist,mode);
 
         //Append & Prepend numbers
-        System.out.println("Interactive Mode: append/prepend numbers");
-        System.out.println("1= append 0-99 at the end");
-        System.out.println("2= append year: 1940-2030");
-        System.out.println("3= prepend 0-99");
-        System.out.println("4= prepend year: 1940-2030");
-        System.out.println("5= do all modes");
+        System.out.println("#                Interactive Mode: append/prepend numbers               #");
+        System.out.println("# 1= append 0-99 at the end                                             #");
+        System.out.println("# 2= append year: 1940-2030                                             #");
+        System.out.println("# 3= prepend 0-99                                                       #");
+        System.out.println("# 4= prepend year: 1940-2030                                            #");
+        System.out.println("# 5= do all modes                                                       #");
 
         mode = scanner.nextInt(); //exeption handling needed
         LinkedList<String> toAdd = new LinkedList<>();
         toAdd = AppendPrepend(modifiedList,mode);
         modifiedList.addAll(toAdd);
 
-        System.out.println("Overwright current File");
-        System.out.println("y");
-        System.out.println("n or any other key");
+        System.out.println("#                        overwrite current File?                        #");
+        System.out.println("# y/n or any other key                                                  #");
 
         String descision = scanner.next();
         if(descision.equals("y")) {
@@ -66,7 +68,8 @@ public class Main {
             createNewFile(modifiedList);
         }
 
-        System.out.println("Done");
+        System.out.println("#                               Done                                    #");
+        System.out.println("#########################################################################");
 
     }
 
@@ -156,10 +159,17 @@ public class Main {
 
     private static void OverWriteFile(LinkedList<String> linkedList,File file) throws IOException {
         FileWriter fileWriter = new FileWriter(file);
+        double length = linkedList.size();
+        int i = 0;
+        double progress;
         Iterator iterator = linkedList.iterator();
         while (iterator.hasNext()) {
             fileWriter.write((String) iterator.next()+"\n");
+            i++;
+            progress = i/length*100;
+            System.out.print("\rProgress: "+progress+"%");
         }
+        System.out.println();
         fileWriter.close();
     }
 
