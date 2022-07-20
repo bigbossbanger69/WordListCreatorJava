@@ -26,14 +26,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         String path = scanner.next();
 
+
         File file = new File(path); //still needs exeption handling
 
-        Scanner fileScanner = new Scanner(file);
-
-        LinkedList<String> originalWordlist = new LinkedList<>();
-        while (fileScanner.hasNextLine()) {
-            originalWordlist.add(fileScanner.nextLine());
-        }
 
         // Change uppercase,lowercase Of Letters
         System.out.println("#                     Interactive mode: change letters                  #");
@@ -43,7 +38,8 @@ public class Main {
         System.out.println("# 4= do all modes                                                       #");
 
         int mode = scanner.nextInt(); // exeption handling needed
-        LinkedList<String> modifiedList = modifyWordlist(originalWordlist,mode);
+        File bufferFile = modifyWordlist(file,mode);
+
 
         //Append & Prepend numbers
         System.out.println("#                Interactive Mode: append/prepend numbers               #");
@@ -54,18 +50,17 @@ public class Main {
         System.out.println("# 5= do all modes                                                       #");
 
         mode = scanner.nextInt(); //exeption handling needed
-        LinkedList<String> toAdd = new LinkedList<>();
-        toAdd = AppendPrepend(modifiedList,mode);
-        modifiedList.addAll(toAdd);
-
+        bufferFile = AppendPrepend(bufferFile,mode);
+        System.out.println();
+        //todo: fix
         System.out.println("#                        overwrite current File?                        #");
         System.out.println("# y/n or any other key                                                  #");
 
         String descision = scanner.next();
         if(descision.equals("y")) {
-            OverWriteFile(modifiedList,file);
+            file = bufferFile;
         } else {
-            createNewFile(modifiedList);
+            bufferFile.renameTo(new File(file.getAbsolutePath().toString()+"new"));
         }
 
         System.out.println("#                               Done                                    #");
@@ -73,88 +68,198 @@ public class Main {
 
     }
 
-    private static LinkedList modifyWordlist (LinkedList<String> linkedList, int mode) {
-        LinkedList<String> toAdd = new LinkedList<>();
-        Iterator iterator = linkedList.iterator();
+    private static File modifyWordlist (File file, int mode) throws IOException {
+        Scanner scanner = new Scanner(file);
+        Path paths = Paths.get("");
+        String path = paths.toAbsolutePath().toString();
+        File bufferfile = new File(path+"/bufferfile");
+        FileWriter fileWriter = new FileWriter(bufferfile);
+        String s ="";
+        String j = "";
 
         if(mode==1) {
-            while (iterator.hasNext()) {
-                String s = (String) iterator.next();
+            while (scanner.hasNextLine()) {
+                s = scanner.next();
                 s = s.toUpperCase();
-                toAdd.add(s);
+                fileWriter.write(s+"\n");
+
             }
         }
         if(mode==2) {
-            while (iterator.hasNext()) {
-                String s = (String) iterator.next();
+            while (scanner.hasNextLine()) {
+                s = scanner.next();
                 s= s.toLowerCase();
-                toAdd.add(s);
+                fileWriter.write(s+"\n");
             }
         }
         if(mode==3) {
-            while (iterator.hasNext()) {
-                String s = (String) iterator.next();
+            while (scanner.hasNextLine()) {
+                s = scanner.next();
                 String s1 = s.substring(0,1);
                 String s2 = s.substring(1);
                 s1 = s1.toUpperCase();
                 s2 = s2.toLowerCase();
                 s=s1+s2;
-                toAdd.add(s);
+                fileWriter.write(s+"\n");
             }
         }
         if(mode==4) {
-            toAdd.addAll(modifyWordlist(linkedList,1));
-            toAdd.addAll(modifyWordlist(linkedList,2));
-            toAdd.addAll(modifyWordlist(linkedList,3));
+            while (scanner.hasNextLine()) {
+                s = scanner.next();
+                j = s.toUpperCase();
+                fileWriter.write(j+"\n");
+                j= s.toLowerCase();
+                fileWriter.write(j+"\n");
+                String s1 = s.substring(0,1);
+                String s2 = s.substring(1);
+                s1 = s1.toUpperCase();
+                s2 = s2.toLowerCase();
+                s=s1+s2;
+                fileWriter.write(s+"\n");
+            }
+
         }
 
-        return toAdd;
+        fileWriter.close();
+        scanner.close();
+
+        return bufferfile;
     }
 
-    private static LinkedList AppendPrepend(LinkedList<String> linkedList,int mode) {
-        LinkedList<String> toAdd = new LinkedList<>();
-        Iterator iterator = linkedList.iterator();
+    private static File AppendPrepend(File file,int mode) throws IOException {
+        Scanner scanner = new Scanner(file);
+        Path paths = Paths.get("");
+        String path = paths.toAbsolutePath().toString();
+        File bufferfile2 = new File(path+"/bufferfile2");
+        FileWriter fileWriter = new FileWriter(bufferfile2);
+        boolean askForInput = true;
+        boolean stop = false;
         if(mode==1) {
-            while (iterator.hasNext()) {
-                String s = (String)iterator.next();
+            int count = 0;
+            while (scanner.hasNextLine() && !stop) {
+                if(bufferfile2.length()/1048576>=5120 && askForInput) {
+                    stop = stopPermutation(bufferfile2);
+                    askForInput = false;
+                }
+                String s =  scanner.nextLine();
                 for (int i = 0;i<=99;i++) {
-                    toAdd.add(s+i);
+                    fileWriter.write(s+i+"\n");
+                }
+                count++;
+                if(count%30000==0) {
+                    System.out.print("\r#workin on mode1: .      size:"+bufferfile2.length()/1048576+"mb");
+                } else if (count%30000==10000) {
+                    System.out.print("\r#workin on mode1: ..     size:"+bufferfile2.length()/1048576+"mb");
+                } else if(count%30000==20000){
+                    System.out.print("\r#workin on mode1: ...    size:"+bufferfile2.length()/1048576+"mb");
                 }
             }
         }
         if(mode==2) {
-            while (iterator.hasNext()) {
-                String s = (String)iterator.next();
+            int count = 0;
+            while (scanner.hasNextLine()) {
+                if(bufferfile2.length()/1048576>=5120 && askForInput) {
+                    stop = stopPermutation(bufferfile2);
+                    askForInput = false;
+                }
+                String s = scanner.nextLine();
                 for (int i = 1940;i<=2030;i++) {
-                    toAdd.add(s+i);
+                    fileWriter.write(s+i+"\n");
+                }
+                count++;
+                if(count%30000==0) {
+                    System.out.print("\r#workin on mode2: .      size:"+bufferfile2.length()/1048576+"mb");
+                } else if (count%30000==10000) {
+                    System.out.print("\r#workin on mode2: ..     size:"+bufferfile2.length()/1048576+"mb");
+                } else if(count%30000==20000){
+                    System.out.print("\r#workin on mode1: ...    size:"+bufferfile2.length()/1048576+"mb");
                 }
             }
         }
         if(mode==3) {
-            while (iterator.hasNext()) {
-                String s = (String)iterator.next();
+            int count = 0;
+            while (scanner.hasNextLine()) {
+                if(bufferfile2.length()/1048576>=5120 && askForInput) {
+                    stop = stopPermutation(bufferfile2);
+                    askForInput = false;
+                }
+                String s = scanner.nextLine();
                 for (int i = 0;i<=99;i++) {
-                    toAdd.add(i+s);
+                    fileWriter.write(s+i+"\n");
+                }
+                count++;
+                if(count%30000==0) {
+                    System.out.print("\r#workin on mode1: .      size:"+bufferfile2.length()/1048576+"mb");
+                } else if (count%30000==10000) {
+                    System.out.print("\r#workin on mode1: ..     size:"+bufferfile2.length()/1048576+"mb");
+                } else if(count%30000==20000){
+                    System.out.print("\r#workin on mode1: ...    size:"+bufferfile2.length()/1048576+"mb");
                 }
             }
         }
         if(mode==4) {
-            while (iterator.hasNext()) {
-                String s = (String)iterator.next();
+            int count = 0;
+            while (scanner.hasNextLine()) {
+                if(bufferfile2.length()/1048576>=5120 && askForInput) {
+                    stop = stopPermutation(bufferfile2);
+                    askForInput = false;
+                }
+                String s = scanner.nextLine();
                 for (int i = 1940;i<=2030;i++) {
-                    toAdd.add(i+s);
+                    fileWriter.write(s+i+"\n");
+                }
+                count++;
+                if(count%30000==0) {
+                    System.out.print("\r#workin on mode1: .      size:"+bufferfile2.length()/1048576+"mb");
+                } else if (count%30000==10000) {
+                    System.out.print("\r#workin on mode1: ..     size:"+bufferfile2.length()/1048576+"mb");
+                } else if(count%30000==20000){
+                    System.out.print("\r#workin on mode1: ...    size:"+bufferfile2.length()/1048576+"mb");
                 }
             }
         }
         if(mode==5) {
-            toAdd.addAll(AppendPrepend(linkedList,1));
-            toAdd.addAll(AppendPrepend(linkedList,2));
-            toAdd.addAll(AppendPrepend(linkedList,3));
-            toAdd.addAll(AppendPrepend(linkedList,4));
+            int count = 0;
+            while (scanner.hasNextLine() && !stop) {
+                if(bufferfile2.length()/1048576>=5120 && askForInput) {
+                    stop = stopPermutation(bufferfile2);
+                    askForInput = false;
+                }
+                String s =  scanner.nextLine();
+                for (int i = 0;i<=99;i++) {
+                    fileWriter.write(s+i+"\n");
+                }
+                for (int i = 1940;i<=2030;i++) {
+                    fileWriter.write(s+i+"\n");
+                }
+                for (int i = 0;i<=99;i++) {
+                    fileWriter.write(s+i+"\n");
+                }
+                for (int i = 1940;i<=2030;i++) {
+                    fileWriter.write(s+i+"\n");
+                }
+                if(count%30000==0) {
+                    System.out.print("\r#workin on mode1: .      size:"+bufferfile2.length()/1048576+"mb");
+                    System.out.print("\rworkin on mode5: this might take a while .      size"+bufferfile2.length()/1048576+"mb");
+                } else if (count%30000==10000) {
+                    System.out.print("\rworkin on mode5: this might take a while..      size"+bufferfile2.length()/1048576+"mb");
+                } else if(count%30000==20000){
+                    System.out.print("\rworkin on mode5: this might take a while...     size:"+bufferfile2.length()/1048576+"mb");
+                }
+                count++;
+            }
+
         }
 
+        if (stop) {
+            return new File(bufferfile2.getAbsolutePath().toString());
+        }
 
-        return toAdd;
+        fileWriter.close();
+        scanner.close();
+
+
+        return bufferfile2;
     }
 
     private static void OverWriteFile(LinkedList<String> linkedList,File file) throws IOException {
@@ -173,20 +278,30 @@ public class Main {
         fileWriter.close();
     }
 
-    private static void createNewFile(LinkedList<String> linkedList) throws IOException {
+    private static void createNewFile(File file) throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Wordlist will be saved in current directory!");
         System.out.println("Please enter a name:");
         String name = scanner.next();
         Path paths = Paths.get("");
         String path = paths.toAbsolutePath().toString();
-        FileWriter fileWriter = new FileWriter(path+"/"+name);
-        Iterator iterator = linkedList.iterator();
+        file.renameTo(new File(path+"/"+name));
+    }
 
-        while (iterator.hasNext()) {
-            fileWriter.write((String) iterator.next()+"\n");
+    private static boolean stopPermutation(File file) {
+        if(file.length()/1048576>=5120) {
+            System.out.println("file is getting big");
+            System.out.println("currently at 5gb");
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Do you want to continue? y/n or any other key");
+            String answer = scanner.next();
+            if(answer.equals("y")) {
+                return false;
+            } else {
+                return true;
+            }
         }
-        fileWriter.close();
+        return false;
     }
 
 
