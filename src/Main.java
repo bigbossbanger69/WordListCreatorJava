@@ -79,7 +79,7 @@ public class Main {
 
         if(mode==1) {
             while (scanner.hasNextLine()) {
-                s = scanner.next();
+                s = scanner.nextLine();
                 s = s.toUpperCase();
                 fileWriter.write(s+"\n");
 
@@ -87,14 +87,14 @@ public class Main {
         }
         if(mode==2) {
             while (scanner.hasNextLine()) {
-                s = scanner.next();
+                s = scanner.nextLine();
                 s= s.toLowerCase();
                 fileWriter.write(s+"\n");
             }
         }
         if(mode==3) {
             while (scanner.hasNextLine()) {
-                s = scanner.next();
+                s = scanner.nextLine();
                 String s1 = s.substring(0,1);
                 String s2 = s.substring(1);
                 s1 = s1.toUpperCase();
@@ -105,7 +105,7 @@ public class Main {
         }
         if(mode==4) {
             while (scanner.hasNextLine()) {
-                s = scanner.next();
+                s = scanner.nextLine();
                 j = s.toUpperCase();
                 fileWriter.write(j+"\n");
                 j= s.toLowerCase();
@@ -172,7 +172,7 @@ public class Main {
                 } else if (count%30000==10000) {
                     System.out.print("\r#workin on mode2: ..     size:"+bufferfile2.length()/1048576+"mb");
                 } else if(count%30000==20000){
-                    System.out.print("\r#workin on mode1: ...    size:"+bufferfile2.length()/1048576+"mb");
+                    System.out.print("\r#workin on mode2: ...    size:"+bufferfile2.length()/1048576+"mb");
                 }
             }
         }
@@ -189,11 +189,11 @@ public class Main {
                 }
                 count++;
                 if(count%30000==0) {
-                    System.out.print("\r#workin on mode1: .      size:"+bufferfile2.length()/1048576+"mb");
+                    System.out.print("\r#workin on mode3: .      size:"+bufferfile2.length()/1048576+"mb");
                 } else if (count%30000==10000) {
-                    System.out.print("\r#workin on mode1: ..     size:"+bufferfile2.length()/1048576+"mb");
+                    System.out.print("\r#workin on mode3: ..     size:"+bufferfile2.length()/1048576+"mb");
                 } else if(count%30000==20000){
-                    System.out.print("\r#workin on mode1: ...    size:"+bufferfile2.length()/1048576+"mb");
+                    System.out.print("\r#workin on mode3: ...    size:"+bufferfile2.length()/1048576+"mb");
                 }
             }
         }
@@ -210,11 +210,11 @@ public class Main {
                 }
                 count++;
                 if(count%30000==0) {
-                    System.out.print("\r#workin on mode1: .      size:"+bufferfile2.length()/1048576+"mb");
+                    System.out.print("\r#workin on mode4: .      size:"+bufferfile2.length()/1048576+"mb");
                 } else if (count%30000==10000) {
-                    System.out.print("\r#workin on mode1: ..     size:"+bufferfile2.length()/1048576+"mb");
+                    System.out.print("\r#workin on mode4: ..     size:"+bufferfile2.length()/1048576+"mb");
                 } else if(count%30000==20000){
-                    System.out.print("\r#workin on mode1: ...    size:"+bufferfile2.length()/1048576+"mb");
+                    System.out.print("\r#workin on mode4: ...    size:"+bufferfile2.length()/1048576+"mb");
                 }
             }
         }
@@ -239,7 +239,6 @@ public class Main {
                     fileWriter.write(s+i+"\n");
                 }
                 if(count%30000==0) {
-                    System.out.print("\r#workin on mode1: .      size:"+bufferfile2.length()/1048576+"mb");
                     System.out.print("\rworkin on mode5: this might take a while .      size"+bufferfile2.length()/1048576+"mb");
                 } else if (count%30000==10000) {
                     System.out.print("\rworkin on mode5: this might take a while..      size"+bufferfile2.length()/1048576+"mb");
