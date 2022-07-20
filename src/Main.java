@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.SortedMap;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class Main {
@@ -31,6 +32,7 @@ public class Main {
 
 
         // Change uppercase,lowercase Of Letters
+        System.out.println("#                                                                       #");
         System.out.println("#                     Interactive mode: change letters                  #");
         System.out.println("# 1= all caps lock                                                      #");
         System.out.println("# 2= all lowercase                                                      #");
@@ -50,13 +52,20 @@ public class Main {
         System.out.println("# 5= do all modes                                                       #");
 
         mode = scanner.nextInt(); //exeption handling needed
-        bufferFile = AppendPrepend(bufferFile,mode);
-        System.out.println();
+        fileSizeWarning(bufferFile,mode);
+
+        System.out.println("#                      Do you want to continue?y/n                      #");
+        String descision = scanner.next();
+        if(descision.equals("y") || descision.equals("Y")) {
+            bufferFile = AppendPrepend(bufferFile,mode);
+        }
+
         //todo: fix
+        System.out.println();
         System.out.println("#                        overwrite current File?                        #");
         System.out.println("# y/n or any other key                                                  #");
 
-        String descision = scanner.next();
+        descision = scanner.next();
         if(descision.equals("y")) {
             file = bufferFile;
         } else {
@@ -301,6 +310,28 @@ public class Main {
             }
         }
         return false;
+    }
+
+    private static void fileSizeWarning(File file, int mode) {
+        if (mode==1 || mode==3 ) {
+            long size = file.length()/1048576;
+            size = size*99;
+            size += size/2;
+            System.out.println("your file will be approximately "+size+"mb big");
+        }
+        if(mode==2 || mode ==4 ) {
+            long size = file.length()/1048576;
+            size = size*90;
+            size += size/2;
+            System.out.println("your file will be approximately "+size+"mb big");
+        }
+        if(mode==5) {
+            long size = file.length()/1048576;
+            size = size*99*99*90*90;
+            size += size/2;
+            System.out.println("your file will be approximately "+size+"mb big");
+        }
+
     }
 
 
