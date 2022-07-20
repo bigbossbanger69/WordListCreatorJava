@@ -6,7 +6,7 @@ This is an alpha
 
 There is no ecxeption handling right now!!!
 
-to execute the .jar file
+to execute the NameWordListCreator.jar file
 
 1) check if java is installed/ terminal: java -version
 
