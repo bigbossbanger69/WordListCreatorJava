@@ -248,11 +248,11 @@ public class Main {
                     fileWriter.write(s+i+"\n");
                 }
                 if(count%30000==0) {
-                    System.out.print("\rworkin on mode5: this might take a while .      size"+bufferfile2.length()/1048576+"mb");
+                    System.out.print("\r#workin on mode5: this might take a while .      size"+bufferfile2.length()/1048576+"mb");
                 } else if (count%30000==10000) {
-                    System.out.print("\rworkin on mode5: this might take a while..      size"+bufferfile2.length()/1048576+"mb");
+                    System.out.print("\r#workin on mode5: this might take a while..      size"+bufferfile2.length()/1048576+"mb");
                 } else if(count%30000==20000){
-                    System.out.print("\rworkin on mode5: this might take a while...     size:"+bufferfile2.length()/1048576+"mb");
+                    System.out.print("\r#workin on mode5: this might take a while...     size:"+bufferfile2.length()/1048576+"mb");
                 }
                 count++;
             }
@@ -317,19 +317,19 @@ public class Main {
             long size = file.length()/1048576;
             size = size*99;
             size += size/2;
-            System.out.println("your file will be approximately "+size+"mb big");
+            System.out.println("#your file will be approximately "+size+"mb big");
         }
         if(mode==2 || mode ==4 ) {
             long size = file.length()/1048576;
             size = size*90;
             size += size/2;
-            System.out.println("your file will be approximately "+size+"mb big");
+            System.out.println("#your file will be approximately "+size+"mb big");
         }
         if(mode==5) {
             long size = file.length()/1048576;
             size = size*99*99*90*90;
             size += size/2;
-            System.out.println("your file will be approximately "+size+"mb big");
+            System.out.println("#your file will be approximately "+size+"mb big");
         }
 
     }
